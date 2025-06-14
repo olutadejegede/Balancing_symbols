@@ -27,7 +27,6 @@ private:
         Stack_Node *next;
     };
     typedef Stack_Node *Stack_ptr;
-
     Stack_ptr Tos;
 };
 
@@ -51,10 +50,46 @@ bool Stack::isEmpty() const
     return Tos == nullptr;
 }
 
+//---------------------------//
+// Main Function             //
+//---------------------------//
+
+int main(int argc, char *argv[])
+{
+    if (argc < 2)
+    {
+        cout << "ERROR: No file found!" << endl;
+        return -1;
+    }
+    else
+    {
+        ifstream filename(argv[1]);
+        string input;
+        Stack stack;
+        if (filename.is_open())
+            while (getline(filename, input))
+            {
+                stack.Balance(input);
+            }
+        else
+        {
+            cout << "ERROR: Unable to open file!" << endl;
+            return -1;
+        }
+
+        filename.close();
+        return 0;
+    }
+}
+
+//----------------------------------------//
+// Although LinkedList will never be full //
+//----------------------------------------//
+
 bool Stack::isFull() const
-{                 //----------------------------------------//
-    return false; // Although LinkedList will never be full //
-} //----------------------------------------//
+{                 
+    return false; 
+}                 
 
 char Stack::Top() const
 {
@@ -67,18 +102,23 @@ char Stack::Top() const
     }
 }
 
+//----------------------------------------//
+// Function to push to our stack:         //
+//----------------------------------------//
+
 void Stack::AddFront(char item)
 {
-    if (!this->isFull())
-    {
+
         Stack_ptr new_node = new Stack_Node;
         new_node->data = item;
         new_node->next = Tos;
         Tos = new_node;
-    }
-    else
-        cout << "ERROR: Stack is Full!" << endl;
+
 }
+
+//----------------------------------------//
+// Function to pop from our stack:        //
+//----------------------------------------//
 
 char Stack::RemoveFront()
 {
@@ -96,6 +136,10 @@ char Stack::RemoveFront()
         return '\0';
     }
 }
+
+//----------------------------------------//
+// Valid Parenthesis Function:            //
+//----------------------------------------//
 
 void Stack::Balance(string symbols)
 {
@@ -131,36 +175,4 @@ void Stack::Balance(string symbols)
         cout << "Symbols are Legal!" << endl;
     else
         cout << "ERROR: Symbols are not valid!" << endl;
-}
-
-//---------------------------//
-// Main Function             //
-//---------------------------//
-
-int main(int argc, char *argv[])
-{
-    if (argc < 2)
-    {
-        cout << "ERROR: No file found!" << endl;
-        return -1;
-    }
-    else
-    {
-        ifstream filename(argv[1]);
-        string input;
-        Stack stack;
-        if (filename.is_open())
-            while (getline(filename, input))
-            {
-                stack.Balance(input);
-            }
-        else
-        {
-            cout << "ERROR: Unable to open file!" << endl;
-            return -1;
-        }
-
-        filename.close();
-        return 0;
-    }
 }
